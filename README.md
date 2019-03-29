@@ -22,7 +22,7 @@ kubectl get pods
 6.Using the same container, copy our data from the previous section:
 kubectl cp pokemon.csv cassandra-24bgm:/pokemon.csv
 run cqlsh inside the container:
-kubectl exec -it cassandra-24bgm cqlsh
+kubectl exec -it cassandra-51bx2 cqlsh
 and build our keyspace:
 CREATE KEYSPACE pokemon WITH REPLICATION =
 {'class' : 'SimpleStrategy', 'replication_factor' : 2};
