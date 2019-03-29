@@ -27,5 +27,32 @@ and build our keyspace:
 CREATE KEYSPACE pokemon WITH REPLICATION =
 {'class' : 'SimpleStrategy', 'replication_factor' : 2};
 
+7.A step to create a Kubernetes cluster using n1-standard-2 machine:
+gcloud container clusters create cassandra --num-nodes=3
+--machine-type "n1-standard-2
+
+8.Check that the single container is running correctly:
+kubectl get pods -l name=cassandra
+
+9.Run cqlsh inside the container:
+kubectl exec -it cassandra-51bx2 cqlsh
+
+10.Build our keyspace:
+CREATE KEYSPACE zzplus.user WITH REPLICATION =
+{'class' : 'SimpleStrategy', 'replication_factor' : 2};
+
+11.Build our image :
+docker build -t gcr.io/${PROJECT_ID}/zzplus-app:v1 .
+
+12.Push it to the Google Repository:
+docker push gcr.io/${PROJECT_ID}/zzplus-app:v1
+
+13.Run it as a service, exposing the deploment to get an external IP:
+kubectl run zzplus-web --image=gcr.io/${PROJECT_ID}/zzplus-app:v1
+--port 8080
+kubectl expose deployment zzplus-app --type=LoadBalancer --port 80
+--target-port 8080
+
+
 
 
